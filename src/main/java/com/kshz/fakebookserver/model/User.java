@@ -1,5 +1,8 @@
 package com.kshz.fakebookserver.model;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -8,6 +11,7 @@ import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -56,6 +60,14 @@ public class User {
 
 	@Field
 	private String profileImage;
+	
+	@Field
+	@DocumentReference(collection = "users", lazy = true)
+	private Set<User> followers;
+	
+	@Field
+	@DocumentReference(collection = "users", lazy = true)
+	private Set<User> followings;
 
 	public User() {
 		super();
@@ -132,6 +144,34 @@ public class User {
 
 	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
+	}
+
+	public Set<User> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(Set<User> followers) {
+		this.followers = followers;
+	}
+
+	public Set<User> getFollowings() {
+		return followings;
+	}
+
+	public void setFollowings(Set<User> followings) {
+		this.followings = followings;
+	}
+	
+	public void addFollower(User user) {
+		if (this.followers == null)
+			this.followers = new TreeSet<User>();
+		this.followers.add(user);
+	}
+	
+	public void addFollowing(User user) {
+		if (this.followings == null)
+			this.followings = new TreeSet<User>();
+		this.followings.add(user);
 	}
 
 	@Override

@@ -22,4 +22,12 @@ public interface IUserService {
 	public User loginWithGoogle(String credential);
 	
 	public List<User> findByName(String name);
+	
+	public User addFollower(String followerUsername, String userId);
+	
+	public User removeFollower(String followerUsername, String userId);
+	
+	public User addFollowing(String followingUsername, String userId);
+	
+	public User removeFollowing(String followingUsername, String userId);
 }
