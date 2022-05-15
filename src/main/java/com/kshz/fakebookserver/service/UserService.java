@@ -191,44 +191,4 @@ public class UserService implements IUserService {
 		}
 	}
 
-	@Override
-	public User addFollower(String followerUsername, String userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User removeFollower(String followerUsername, String userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User addFollowing(String followingUsername, String userId) {
-		// get current user
-		Optional<User> optional_currentUser = findById(userId);
-		if (optional_currentUser.isEmpty())
-			throw new EntityNotFoundException("Current User cannot be located", "User not found");
-		User currentUser = optional_currentUser.get();
-		
-		// get following user
-		Optional<User> userToBeFollowed = findUserByUsername(followingUsername);
-		if (userToBeFollowed.isEmpty())
-			throw new EntityNotFoundException("Following User cannot be located", "User not found");
-		
-		// add follower
-		currentUser.addFollower(userToBeFollowed.get());
-		
-		// save
-		save(currentUser);
-		
-		return userToBeFollowed.get();
-	}
-
-	@Override
-	public User removeFollowing(String followingUsername, String userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

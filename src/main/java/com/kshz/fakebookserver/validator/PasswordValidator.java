@@ -9,7 +9,6 @@ import javax.validation.ConstraintValidatorContext;
 import com.kshz.fakebookserver.annotation.Password;
 
 public class PasswordValidator implements ConstraintValidator<Password, String> {
-
 	
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {

@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kshz.fakebookserver.exceptions.EntityNotFoundException;
+import com.kshz.fakebookserver.model.Connection;
 import com.kshz.fakebookserver.model.Post;
 import com.kshz.fakebookserver.model.User;
 import com.kshz.fakebookserver.request.UpdateUserRequest;
 import com.kshz.fakebookserver.response.ParsedUser;
 import com.kshz.fakebookserver.response.UserResponse;
+import com.kshz.fakebookserver.service.ConnectionService;
 import com.kshz.fakebookserver.service.PostService;
 import com.kshz.fakebookserver.service.UserService;
 
@@ -34,6 +36,9 @@ public class UserController {
 	
 	@Autowired
 	private PostService postService;
+	
+	@Autowired
+	private ConnectionService connectionService;
 	
 	@GetMapping("/{username}")
 	public UserResponse getUserWithId(@PathVariable String username, HttpServletRequest req) {
@@ -55,7 +60,13 @@ public class UserController {
 			posts = postService.findAllPostOfUser(user.get().getId());
 		}
 		
-		return new UserResponse(user.get(), posts, isClientSelf, null);
+		// get connections
+		Optional<Connection> connectionsOpt = connectionService.findById(clientId);
+		Connection connections = connectionsOpt.isPresent() ? connectionsOpt.get() : null;
+		
+		return new UserResponse(user.get(), posts, isClientSelf, null, 
+				connections != null ? connections.getFollowers() : null, 
+				connections != null ? connections.getFollowings() : null);
 	}
 
 	@PatchMapping
@@ -64,7 +75,7 @@ public class UserController {
 		
 		User updatedUser = userService.updateUser(clientId, requestBody);
 
-		return new UserResponse(updatedUser, null, updatedUser.getId().equals(clientId), "User updated successfully");
+		return new UserResponse(updatedUser, null, updatedUser.getId().equals(clientId), "User updated successfully", null, null);
 	}
 	
 	@GetMapping
