@@ -1,0 +1,40 @@
+server:
+  port: 4000
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  data:
+    mongodb:
+      uri: ${DB_URL}
+      database: ${DB_NAME}
+      auto-index-creation: true
+  security:
+    user:
+      name: ${SS_USER}
+      password: ${SS_PASS}
+
+# cors configuration
+cors:
+  origin:
+    allow: http://localhost:4200
+
+google:
+  client:
+    id: ${GOOGLE_CLIENT}
+
+registration:
+  license: ${REG_LICENSE}
+
+bcrypt:
+  salt:
+    rounds: 3
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+jwt:
+  secret: HemloBro

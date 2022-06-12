@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active:
+    - dev
+
+server:
+  servlet:
+    context-path: /api
+
+# spring starter actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - health
+        - info
+  info:
+    env:
+      enabled: true
+
+# Info endpoint 
+info:
+  app:
+    name: FakeBook Spring Server
+    description: Server for a social networking application built with spring
+    version: 0.0.2
+    author: Shubham Kumar
+    technology: Spring Boot

@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kshz.fakebookserver.request.ConnectionReq;
 import com.kshz.fakebookserver.response.ConnectionResponse;
 import com.kshz.fakebookserver.service.ConnectionService;
+import com.kshz.fakebookserver.websocket.core.Observable;
 
 @RestController
 @RequestMapping("/connection")
-public class ConnectionController {
+public class ConnectionController extends Observable<ConnectionController> {
 
 	@Autowired
 	private ConnectionService connectionService;
@@ -24,8 +25,10 @@ public class ConnectionController {
 	@PostMapping("/follow")
 	public ConnectionResponse follow(@RequestBody @Valid ConnectionReq reqBody, HttpServletRequest req) {
 		String userId = (String) req.getAttribute("userId");
+		// String username = (String) req.getAttribute("username");
 		String actionUsername = reqBody.getUsername();
 		connectionService.addFollowing(actionUsername, userId);
+		// notifyObservers(this, username, actionUsername); // notify followed user
 		return new ConnectionResponse("Followed Successfully.", "Started following " + actionUsername);
 	}
 

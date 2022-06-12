@@ -66,6 +66,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 			
 			if (user.isPresent()) {
 				request.setAttribute("userId", userId);
+				request.setAttribute("username", username);
 				
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userId, null, null);

@@ -1,0 +1,33 @@
+logging:
+  level:
+    root: WARN
+
+spring:
+  data:
+    mongodb:
+      uri: ${spring.data.mongodb.uri}
+      database: ${spring.data.mongodb.database}
+      auto-index-creation: true
+  security:
+    user:
+      name: ${spring.security.user.name}
+      password: ${spring.security.user.password}
+
+# cors configuration
+cors:
+  origin:
+    allow: ${cors.origin.allow}
+
+google:
+  client:
+    id: ${google.client.id}
+
+registration:
+  license: ${registration.license}
+
+bcrypt:
+  salt:
+    rounds: ${bcrypt.salt.rounds}
+
+jwt:
+  secret: ${jwt.secret}

@@ -31,13 +31,12 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
 		http.cors().configurationSource(request -> {
 			CorsConfiguration cors = new CorsConfiguration();
 			if (allowedOrigins != null) {
 				Arrays.asList(allowedOrigins.split(","))
 					.stream()
-					.forEach(origin -> cors.addAllowedOrigin(origin));
+					.forEach(origin -> cors.addAllowedOrigin(origin.trim()));
 			}
 			cors.setAllowedMethods(List.of("*"));
 			cors.setAllowedHeaders(List.of("*"));
@@ -49,6 +48,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest()
 			.authenticated();
 		
+		http.csrf().disable();
 		// use stateless session; session won't be used to
 		// store user's state.
 		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
